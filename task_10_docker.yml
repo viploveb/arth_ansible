@@ -1,0 +1,35 @@
+- hosts: localhost
+  tasks:
+    - name: docker repository
+      yum_repository: 
+        name: docker
+        description: docker repo
+        baseurl: https://download.docker.com/linux/centos/7/x86_64/stable/
+        gpgcheck: no
+
+    - name: install docker
+      command: "yum install docker-ce -y --nobest"
+
+    - name: copy webpage
+      copy:
+        content: "task 10 success."
+        dest: /var/www/html/task10.html
+
+    - name: start docker
+      service:
+        name: "docker"
+        state: started
+
+    - name: apache image
+      docker_image:
+        name: "httpd"
+        source: pull
+
+    - name: run container
+      docker_container:
+        name: "httpd"
+        image: "httpd"
+        exposed_ports: "80"
+        ports: "8080:80"
+        state: started
+        volumes: "/var/www/html/:/usr/local/apache2/htdocs/"
