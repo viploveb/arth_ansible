@@ -1,0 +1,19 @@
+
+- hosts: localhost
+  tasks:
+  - name: "launching ec2 instance"
+      ec2:
+        key_name: "keyname"
+        instance_type: "t2.micro"
+        image: "image_id"
+        wait: yes
+        count: 1
+        instance_tags: 
+          name: "os_tag"
+        vpc_subnet_id: "id"
+        assign_public_ip: "yes"
+        state: present
+        region: "ap-south-1"
+        group_id: "security_group_id"
+        aws_access_key: "access_key"
+        aws_secret_key: "secret_key"
