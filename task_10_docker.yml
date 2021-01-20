@@ -9,7 +9,11 @@
 
     - name: install docker
       command: "yum install docker-ce -y --nobest"
+      changed_when: false
 
+    - name: docker sdk for python
+      pip: 
+        name: docker
     - name: copy webpage
       copy:
         content: "task 10 success."
@@ -33,9 +37,9 @@
         ports: "8080:80"
         state: started
         volumes: "/var/www/html/:/usr/local/apache2/htdocs/"
-     - name: firewall
-       firewalld:
-         port: "80/tcp"
-         state: enabled
-         permanent: yes
-         immediate: yes
+    - name: firewall
+      firewalld:
+        port: 80/tcp
+        state: enabled
+        permanent: yes
+        immediate: yes
